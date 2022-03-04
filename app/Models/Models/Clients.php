@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Clients extends Model
 {
+  use HasFactory;
+
   protected $fillable = [
-    'name', 'email', 'phone', 'birthdate', 'adress', 'complement', 'district', 'zipcode', 'registration_date'
+    'name', 'email', 'phone', 'birthdate', 'adress', 'complement', 'district', 'zipcode'
   ];
+
+  public function orders()
+  {
+    return $this->hasMany(Orders::class);
+  }
 }
