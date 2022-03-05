@@ -19,7 +19,7 @@ class ProductsFactory extends Factory
          return [
            'name' => $this->faker->name(),
            'price' => $this->faker->randomFloat(2,3,6),
-           'photo' => $this->faker->imageUrl(640, 480, 'Product', true)
+           'photo' => storage_path('img') . '\\Pastel' . $this->faker->numberBetween(1, 6) . '.jpg'
          ];
      }
 }

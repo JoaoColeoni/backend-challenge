@@ -8,9 +8,16 @@ use App\Models\Models\Products;
 
 class ProductController extends Controller
 {
+  private $product;
+
+  public function __construct(Products $product){
+    $this->product = $product;
+  }
+
   public function index()
   {
-      return Products::all();
+      return $this->product->paginate(10);
+      //return Products::all();
   }
 
   public function create()
@@ -20,12 +27,16 @@ class ProductController extends Controller
 
   public function store(Request $request)
   {
-      Products::create($request->all());
+      $request->validate([
+        'name' => 'required|min:4|max:60',
+        'price' => 'numeric|required'
+      ]);
+      return Products::create($request->all());
   }
 
-  public function show($id)
+  public function show(Products $product)
   {
-      return Products::findOrFail($id);
+      return $product;
   }
 
   public function edit($id)
@@ -37,11 +48,13 @@ class ProductController extends Controller
   {
       $Product = Products::findOrFail($id);
       $Product->update($request->all());
+
+      return $Product;
   }
 
   public function destroy($id)
   {
       $Product = Products::findOrFail($id);
-      $Product->delete();
+      return $Product->delete();
   }
 }
